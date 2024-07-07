@@ -2,19 +2,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Product {
-    private String name;
-    private String caption;
+    protected  String name;
+    protected String caption;
     private int inventory;
-    private double price;
+    protected double price;
     private List<String> comments;
-    private Seller seller;
+    protected Seller seller;
     // Category
+
     public Product(String name, String caption, int inventory, double price, Seller seller) {
         this.name = name;
         this.caption = caption;
         this.inventory = inventory;
         this.price = price;
         this.comments = new ArrayList<>();
+        this.seller = seller;
+    }
+    
+    public void print() {
+
+    }
+
+    // For sale
+    public Product(String name, String caption, double price, Seller seller) {
+        this.name = name;
+        this.caption = caption;
+        this.price = price;
         this.seller = seller;
     }
 

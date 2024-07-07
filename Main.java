@@ -9,6 +9,9 @@ import java.util.regex.Pattern;
 
 
 public class Main {
+    public static void print(Object s) {
+        System.out.println(s);
+    }
 
     public static void clear() {
         System.out.print("\033[H\033[2J");  
@@ -182,7 +185,7 @@ public class Main {
             clear();
         }
 
-
+        clear();
         System.out.println("Wrong Username or Password!");
         Login(shop);
     }
@@ -199,6 +202,7 @@ public class Main {
         System.out.println("7. Edit Account");
         System.out.println("8. Wating products");
         System.out.println("9. Add comment");
+        System.out.println("10. Wallet");
         System.out.println("0. Log out");
 
         int status = scanner.nextInt();
@@ -241,6 +245,11 @@ public class Main {
 
         else if(status == 9) {
             addCommnet(shop, user);
+        }
+
+        else if(status == 10){
+            clear();
+            System.out.println("You have " + user.getWallet() + " dollors.");
         }
 
         else{
@@ -376,6 +385,7 @@ public class Main {
     }
 
     public static void waitingProducts(User user) {
+        clear();
         HashMap<Product, Integer> watingProducts = user.getWaitingProducts();
         int number = 1;
         for (Product i : watingProducts.keySet()) {
@@ -433,7 +443,7 @@ public class Main {
         int number = 1;
         clear();
         for (Product i : shoppingCart.keySet()) {
-            System.out.println(number + ".\n" + "Name: " + i.getName() + "\nNumber: " + shoppingCart.get(i) + "\n--------------");
+            System.out.println(number + ".\n" + "Name: " + i.getName() + "\nNumber: " + shoppingCart.get(i) + "\nPrice: " + i.getPrice() + "\n--------------");
             number += 1;
         }
         if(number == 1) {
@@ -465,7 +475,9 @@ public class Main {
         for(Product i: searchedList) {
             System.out.println(number + ".");
             System.out.println(i.getName());
-            System.out.println(i.getPrice());
+            System.out.println("Price: " + i.getPrice());
+            System.out.println("Caption: " + i.getCaption());
+            System.out.println("Inventory: " + i.getInventory());
             System.out.println("------------------");
             number += 1;
         }
@@ -498,7 +510,7 @@ public class Main {
         }
         System.out.println("--------------------");
         while(true) {
-            System.out.println("Do you want to add it to Shopping Cart? Enter the number of this product you want to buy. \n 0. back");
+            System.out.println("Do you want to add it to Shopping Cart? Enter the number of this product you want to buy. \n0. back");
             
             int status = scanner.nextInt();
             scanner.nextLine();
@@ -562,6 +574,7 @@ public class Main {
         }
 
         else if(status == 5) {
+            clear();
             System.out.println("Profit: " + shop.getProfit());
         }
 
@@ -584,7 +597,7 @@ public class Main {
         clear();
         int number = 1;
         for(User i: shop.getUsers()) {
-            System.out.println(number + ". Username: " + i.getUsername() + ", Password: " + i.getPassword() + ", Address: " + i.getAddress() + ", Email: " + i.getEmail() + ", Phone number: " + i.getPhoneNumber() + "\n--------------");
+            System.out.println(number + ". Username: " + i.getUsername() + ", Password: " + i.getPassword() + ", Address: " + i.getAddress() + ", Email: " + i.getEmail() + ", Phone number: " + i.getPhoneNumber() + "Wallet: " + i.getWallet()+ "\n--------------");
             number+=1;
         }
         if(number == 1) {
@@ -596,7 +609,7 @@ public class Main {
         clear();
         int number = 1;
         for(Seller i: shop.getSellers()) {
-            System.out.println(number + ". Company Name: " + i.getUsername() + ", Password: " + i.getPassword() + ", Address: " + i.getAddress() + ", Email: " + i.getEmail() + ", Phone number: " + i.getPhoneNumber() + "\n--------------");
+            System.out.println(number + ". Company Name: " + i.getUsername() + ", Password: " + i.getPassword() + ", Address: " + i.getAddress() + ", Email: " + i.getEmail() + ", Phone number: " + i.getPhoneNumber() + "Wallet: " + i.getWallet() + ", Caption: " + i.getCaption() + "\n--------------");
             number+=1;
         }
         if(number == 1) {
@@ -605,8 +618,10 @@ public class Main {
     }
 
     public static void ConfirmChargeRequest(Shop shop) {
+        clear();
+
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Give Request code to confirm. 0. back");
+        System.out.println("Give Request code to confirm. \n0. back");
         int number = 1;
 
         HashMap<User, Double> chargeRequests = shop.getChargeRequests();
@@ -617,6 +632,7 @@ public class Main {
         }
 
         if(number == 1) {
+            clear();
             System.out.println("There is no Charge Request.");
             return;
         }
@@ -631,26 +647,32 @@ public class Main {
                 price = chargeRequests.get(i);
                 shop.removeChargeRequest(user);
                 user.addWallet(price);
+                
+                clear();
                 System.out.println("Charge confirmed!");
-                break;
+                return;
             }
             num+=1; 
         }
-        ConfirmChargeRequest(shop);
+        clear();
+        System.out.println("Charge Failed!");
     }   
 
     public static void ConfirmSeller(Shop shop) {
+        clear();
+
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Give seller code to confirm. 0. back");
+        System.out.println("Give seller code to confirm. \n0. back");
         int number = 1;
 
         List<Seller> sellers = shop.getWatingSellers();
         for(Seller i: sellers) {
-            System.out.println(number + ". Username: " + i.getUsername() + ", Company Name: " + i.getCompanyName());
+            System.out.println(number + ". Username: " + i.getUsername() + ", Password: " + i.getPassword() + ", Email: " + i.getEmail() + ", Caption: " + i.getCaption() + ", Phone number: " + i.getPhoneNumber() + "\n--------------" );
             number += 1;
         }
 
         if(number == 1) {
+            clear();
             System.out.println("There is no Waiting Sellers.");
             return;
         }
@@ -661,12 +683,14 @@ public class Main {
         shop.removeWatingSellerAndAddtoSellers(seller);
         seller.setConfirmation();
 
+        clear();
         System.out.println("Seller confirmed!");
         ConfirmSeller(shop);
     }
 
     public static void ConfirmBuy(Shop shop) {
         Scanner scanner = new Scanner(System.in);
+        clear();
         int number = 1;
         for(User user: shop.getUsers()) {
             HashMap<Product, Integer> waitingProducts = user.getWaitingProducts();
@@ -680,12 +704,13 @@ public class Main {
                 price += waitingProducts.get(product) * product.getPrice();
                 System.out.println("Product: " + product.getName() + ", number: " + waitingProducts.get(product));
             }
-            System.out.println("Price: " + price + ", User Wallet: " + user.getWallet());
+            System.out.println("Price: " + price + ", User Wallet: " + user.getWallet() + "\n--------------");
 
             number += 1;
         }
         if(number == 1) {
-            System.out.println("We dont have Waiting Product.");
+            clear();
+            System.out.println("We dont have Waiting Purchase.");
             return;
         }
         else{
@@ -694,6 +719,8 @@ public class Main {
         
         number = scanner.nextInt();
         scanner.nextLine();
+        clear();
+        
         int num = 1;
         if(number == 0) {
             return;
@@ -712,11 +739,16 @@ public class Main {
                     user.addOrderedProducts(product, waitingProducts.get(product));
                     product.getSeller().addWallet(productCost*90/100);
                     shop.addProfit(productCost*10/100);
+
+                    Sale sale = new Sale(product.getName(), product.getCaption(), waitingProducts.get(product), product.getPrice(), product.getSeller(), user);
+                    shop.addSales(sale);
+                    product.getSeller().addSales(sale);
                 }
                 user.addWallet(-1*price);
                 user.clearWaitingProduct();
 
-                System.out.println("Buy Done!");
+                clear();
+                System.out.println("Purchase confirmed!");
                 break;
             }
             num+=1;
@@ -733,14 +765,17 @@ public class Main {
         }
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Hello Seller!");
+        System.out.println("Hello " + seller.getCompanyName() + "!");
         System.out.println("1. Add product");
         System.out.println("2. Show Products");
-        // System.out.println("3. Remove Product");
+        System.out.println("3. Remove Product");
+        System.out.println("4. Wallet");
+        System.out.println("5. Sales");
         System.out.println("0. Log out");
 
         int status = scanner.nextInt();
         scanner.nextLine();
+        clear();
 
         if(status == 0) {
             return;
@@ -754,9 +789,17 @@ public class Main {
             showSellerProducts(shop, seller);
         }
 
-        // else if(status == 3) {
-        //     removeProduct(shop, seller);
-        // }
+        else if(status == 3) {
+            removeProduct(shop, seller);
+        }
+
+        else if(status == 4) {
+            System.out.println("You have " + seller.getWallet() + " dollors.");
+        }
+
+        else if(status == 5) {
+            showSales(seller);
+        }
 
         else{
             System.out.println("Command not found! Try Again");
@@ -766,7 +809,17 @@ public class Main {
 
     }
 
+    public static void showSales(Seller seller) {
+        int number = 1;
+        for(Sale sale: seller.getSales()) {
+            print(1);
+            sale.print();
+            number += 1;
+        }
+    }
+
     public static void showSellerProducts(Shop shop, Seller seller) {
+        clear();
         int number = 1;
         for(Product i: seller.getProducts()) {
             System.out.println(number + ". " + i.getName() + ", caption: " + i.getCaption() + ", inventory: " + i.getInventory() + ", price: " + i.getPrice());
@@ -777,18 +830,59 @@ public class Main {
         }
     }
 
+    public static void removeProduct(Shop shop, Seller seller) {
+        clear();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Give Product code to remove. \n0. back");
+        int number = 1;
+        for(Product i: seller.getProducts()) {
+            System.out.println(number + ". " + i.getName() + ", caption: " + i.getCaption() + ", inventory: " + i.getInventory() + ", price: " + i.getPrice());
+            number += 1;
+        }
+        if(number == 1) {
+            clear();
+            System.out.println("You dont have any products.");
+            return;
+        }
+        
+        int status = scanner.nextInt();
+        scanner.nextLine();
+        clear();
+        if(status == 0) {
+            return;
+        }
+        number = 1;
+        for(Product i: seller.getProducts()) {
+            if(status == number) {
+                shop.removeProduct(i);
+                seller.removeProduct(i);
+                clear();
+                System.out.println("Product removed!");
+                return;
+            }
+            number += 1;
+        }
+        clear();
+        System.out.println("Failed to remove any product. Try again.");
+    }
+
     public static void addProduct(Shop shop, Seller seller) {
+
+        clear();
         Scanner scanner = new Scanner(System.in);
         System.out.println("Give product name: ");
         String name = scanner.nextLine();
 
+        clear();
         System.out.println("Give product caption: ");
         String caption = scanner.nextLine();
 
+        clear();
         System.out.println("Give product inventory: ");
         int inventory = scanner.nextInt();
         scanner.nextLine();
 
+        clear();
         System.out.println("Give product price: ");
         double price = scanner.nextDouble();
         scanner.nextLine();
@@ -797,12 +891,14 @@ public class Main {
         seller.addProduct(newProduct);
         shop.addProduct(newProduct);
 
+        clear();
         System.out.println("Product added to shop!");
     }
 
     public static void addAdmin(Shop shop) {
         Scanner scanner = new Scanner(System.in);
         String username = "";
+        clear();
         while(true) { 
             boolean found = false;
             System.out.println("Enter Username:");
@@ -816,19 +912,23 @@ public class Main {
             if(!found) {
                 break;
             }
+            clear();
             System.out.println("Username is taken. Choose new one.");
         }
         
 
+        clear();
         System.out.println("Enter Password:");
         String password = scanner.nextLine();
 
+        clear();
         System.out.println("Enter Email:");
         String email = scanner.nextLine();
 
         Admin admin = new Admin(username, password, email);
-        shop.addUser(admin);
+        shop.addAdmin(admin);
 
+        clear();
         System.out.println("Register Done.");
 
     }

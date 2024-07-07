@@ -12,9 +12,8 @@ public class Shop {
     private List<Seller> watingSellers;
     private List<Seller> sellers;
     private List<Product> products;
-    private List<Product> sales;
+    private List<Sale> sales;
     private HashMap<User, Double> chargeRequests;
-    // List Order
     private double profit;
 
     public Shop(String name, String webAddress, String supportNumber) {
@@ -26,6 +25,7 @@ public class Shop {
         this.sellers = new ArrayList<>();
         this.watingSellers = new ArrayList<>();
         this.products = new ArrayList<>();
+        this.sales = new ArrayList<>();
         this.chargeRequests = new HashMap<>();
         this.profit = 0;
     }
@@ -43,6 +43,10 @@ public class Shop {
         this.sellers.add(seller);
     }
 
+    public void addSales(Sale sale) {
+        this.sales.add(sale);
+    }
+
     public void addWatingSellers(Seller seller) {
         this.watingSellers.add(seller);
     }
@@ -58,6 +62,10 @@ public class Shop {
 
     public void addProduct(Product product) {
         this.products.add(product);
+    }
+
+    public void removeProduct(Product product) {
+        this.products.remove(product);
     }
     
     public void addChargeRequest(double charge, User user) {
@@ -109,5 +117,7 @@ public class Shop {
     public HashMap<User, Double> getChargeRequests() {
         return this.chargeRequests;
     }
+
+    
 
 }
