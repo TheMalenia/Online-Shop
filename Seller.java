@@ -17,6 +17,11 @@ public class Seller extends User{
         this.sales = new ArrayList<>();
 
     }
+    
+    @Override
+    public void print() {
+        System.out.println("Company Name: " + this.username + ", Password: " + this.password + ", Email: " + this.email + ", Phone number: " + this.phoneNumber + ", Caption: " + this.caption+ ", Wallet: " + this.wallet);
+    }
 
     //add
     public void addProduct(Product product) {

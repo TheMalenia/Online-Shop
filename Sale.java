@@ -10,7 +10,12 @@ public class Sale extends Product {
 
     @Override
     public void print() {
-        System.out.println("Name: " + this.name + ", Caption: ");
+        System.out.println("Name: " + this.name + ", Caption: " + this.caption + ", Number: " + this.number + ", Price: " + this.price);
+    }
+
+    // get
+    public User getUser() {
+        return this.user;
     }
 
 }

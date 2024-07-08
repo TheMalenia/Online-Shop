@@ -23,6 +23,10 @@ public class User {
         this.wallet = 0;
     }
 
+    public void print() {
+        System.out.println("Username: " + this.username + ", Password: " + this.password + ", Address: " + this.address + ", Email: " + this.email + ", Phone number: " + this.phoneNumber + ", Wallet: " + this.wallet);
+    }
+
     // for admins
     public User(String username, String password, String email) {
         this.username = username;

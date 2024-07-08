@@ -1,5 +1,3 @@
-
-import java.awt.SystemTray;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,8 +7,9 @@ import java.util.regex.Pattern;
 
 
 public class Main {
+
     public static void print(Object s) {
-        System.out.println(s);
+        System.out.print(s);
     }
 
     public static void clear() {
@@ -194,7 +193,6 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Hello " + user.getUsername());
         System.out.println("1. Search");
-        System.out.println("2. Categories");
         System.out.println("3. Shopping Cart");
         System.out.println("4. Buy Shopping Cart Items");
         System.out.println("5. Charge wallet");
@@ -504,12 +502,13 @@ public class Main {
         int inventory = product.getInventory();
         List<String> comments = product.getComments();
 
-        System.out.println("Name: " + name + '\n' + "Caption: " + caption + '\n' + "Price: " + price + '\n' + "Inventory: " + inventory + "\nComments: ");
-        for(String i: comments) {
-            System.out.println(i);
-        }
-        System.out.println("--------------------");
+        
         while(true) {
+            System.out.println("Name: " + name + '\n' + "Category: " + product.getCategory().getName() + "\n" + "Caption: " + caption + '\n' + "Price: " + price + '\n' + "Inventory: " + inventory + "\nComments: ");
+            for(String i: comments) {
+                System.out.println(i);
+            }
+            System.out.println("--------------------");
             System.out.println("Do you want to add it to Shopping Cart? Enter the number of this product you want to buy. \n0. back");
             
             int status = scanner.nextInt();
@@ -547,6 +546,7 @@ public class Main {
         System.out.println("5. Show Shop Profit");
         System.out.println("6. Buy confirmation");
         System.out.println("7. Add admin");
+        System.out.println("8. Show Sales");
         System.out.println("0. Log out");
 
         int status = scanner.nextInt();
@@ -586,11 +586,33 @@ public class Main {
             addAdmin(shop);
         }
 
+        else if(status == 8) {
+            ShowSales(shop);
+        }
+
         else{
             System.out.println("Command not found! Try Again");
         }
 
         AdminMenu(shop, admin);
+    }
+
+    public static void ShowSales(Shop shop){
+        clear();
+        int number = 1;
+        for(Sale sale: shop.getSales()) {
+            print(number + ". ");
+            sale.print();
+            print("Seller is: ");
+            sale.getSeller().print();
+            print("Saled to: ");
+            sale.getUser().print();
+            print("----------------\n");
+            number += 1;
+        }
+        if(number == 1) {
+            print("There is no sales!\n");
+        }
     }
 
     public static void ShowUsers(Shop shop) {
@@ -667,7 +689,9 @@ public class Main {
 
         List<Seller> sellers = shop.getWatingSellers();
         for(Seller i: sellers) {
-            System.out.println(number + ". Username: " + i.getUsername() + ", Password: " + i.getPassword() + ", Email: " + i.getEmail() + ", Caption: " + i.getCaption() + ", Phone number: " + i.getPhoneNumber() + "\n--------------" );
+            print(number + ".\n");
+            i.print();
+            print("--------------\n");
             number += 1;
         }
 
@@ -679,6 +703,11 @@ public class Main {
 
         number = scanner.nextInt();
         scanner.nextLine();
+
+        if(number == 0) {
+            clear();
+            return;
+        }
         Seller seller = sellers.get(number-1);
         shop.removeWatingSellerAndAddtoSellers(seller);
         seller.setConfirmation();
@@ -798,7 +827,7 @@ public class Main {
         }
 
         else if(status == 5) {
-            showSales(seller);
+            showSalesForSeller(seller);
         }
 
         else{
@@ -809,12 +838,20 @@ public class Main {
 
     }
 
-    public static void showSales(Seller seller) {
+    public static void showSalesForSeller(Seller seller) {
+        clear();
         int number = 1;
         for(Sale sale: seller.getSales()) {
-            print(1);
+            print(number + ". ");
             sale.print();
+            print("Saled to: ");
+            User user = sale.getUser();
+            print("User: " + user.getUsername() + ", Address: " + user.getAddress() + ", Phone number: " + user.getPhoneNumber() + "\n");
+            print("----------------\n");
             number += 1;
+        }
+        if(number == 1) {
+            print("There is no sales!\n");
         }
     }
 
@@ -874,6 +911,19 @@ public class Main {
         String name = scanner.nextLine();
 
         clear();
+        int number = 1;
+        System.out.println("Give product category: ");
+        for(Category i: shop.getCategories()) {
+            print(number + ". " + i.getName());
+            print("\n");
+            number += 1;
+        }
+        int status = scanner.nextInt();
+        scanner.nextLine();
+        clear();
+        Category category = shop.getCategories().get(status-1);
+        
+        clear();
         System.out.println("Give product caption: ");
         String caption = scanner.nextLine();
 
@@ -887,7 +937,7 @@ public class Main {
         double price = scanner.nextDouble();
         scanner.nextLine();
 
-        Product newProduct = new Product(name, caption, inventory, price, seller);
+        Product newProduct = new Product(name, caption, inventory, price, seller, category);
         seller.addProduct(newProduct);
         shop.addProduct(newProduct);
 
@@ -937,6 +987,22 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Shop shop = new Shop("Digikala", "www.Digikala.com", "0212387");
         Admin admin = new Admin("admin", "admin", "admin@mail.com");
+        
+        Category cat1 = new Category("Digital goods", "All the Digital things!");
+        Category cat2 = new Category("Laptop", "All the Laptops!", cat1);
+        Category cat3 = new Category("Phone", "All the phone number!", cat1);
+        
+        Category cat4 = new Category("Home Appliances", "All the Home stuff!");
+        Category cat5 = new Category("Kitchen appliances", "All the Kitchen stuff!", cat1);
+        Category cat6 = new Category("Decoration", "Things for you home decoration!", cat1);
+
+        shop.addCategory(cat1);
+        shop.addCategory(cat2);
+        shop.addCategory(cat3);
+        shop.addCategory(cat4);
+        shop.addCategory(cat5);
+        shop.addCategory(cat6);
+
         shop.addAdmin(admin);
         clear();
         while(true) { 

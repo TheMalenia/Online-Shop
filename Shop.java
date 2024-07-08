@@ -15,6 +15,7 @@ public class Shop {
     private List<Sale> sales;
     private HashMap<User, Double> chargeRequests;
     private double profit;
+    private List<Category> categories;
 
     public Shop(String name, String webAddress, String supportNumber) {
         this.name = name;
@@ -28,6 +29,7 @@ public class Shop {
         this.sales = new ArrayList<>();
         this.chargeRequests = new HashMap<>();
         this.profit = 0;
+        this.categories = new ArrayList<>();
     }
 
     // add
@@ -76,6 +78,10 @@ public class Shop {
         this.profit += profit;
     }
 
+    public void addCategory(Category category) {
+        this.categories.add(category);
+    }
+
 
     // get
     public String getName() {
@@ -118,6 +124,12 @@ public class Shop {
         return this.chargeRequests;
     }
 
-    
+    public List<Sale> getSales() {
+        return this.sales;
+    }
+
+    public List<Category> getCategories() {
+        return this.categories;
+    }
 
 }

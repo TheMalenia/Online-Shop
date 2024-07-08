@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Product {
     protected  String name;
@@ -8,14 +9,15 @@ public class Product {
     protected double price;
     private List<String> comments;
     protected Seller seller;
-    // Category
+    private Category category;
 
-    public Product(String name, String caption, int inventory, double price, Seller seller) {
+    public Product(String name, String caption, int inventory, double price, Seller seller, Category category) {
         this.name = name;
         this.caption = caption;
         this.inventory = inventory;
         this.price = price;
         this.comments = new ArrayList<>();
+        this.category = category;
         this.seller = seller;
     }
     
@@ -62,5 +64,9 @@ public class Product {
 
     public Seller getSeller() {
         return this.seller;
+    }
+
+    public Category getCategory() {
+        return this.category;
     }
 }
