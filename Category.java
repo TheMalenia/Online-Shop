@@ -9,22 +9,29 @@ public class Category {
     protected List<Product> products;
     protected Category Dad;
     protected boolean haveDad;
+    protected String data1; //, value1; 
+    protected String data2; //, value2; 
 
-    public Category(String name, String caption) {
+    public Category(String name, String caption, String data1, String data2) {
         this.name = name;
         this.caption = caption;
         this.products = new ArrayList<>();
         this.haveDad = false;
+        this.data1 = data1;
+        this.data2 = data2;
     }
 
-    public Category(String name, String caption, Category Dad) {
+    public Category(String name, String caption, String data1, String data2, Category Dad) {
         this.name = name;
         this.caption = caption;
         this.products = new ArrayList<>();
         this.Dad = Dad;
         this.haveDad = true;
+        this.data1 = data1;
+        this.data2 = data2;
     }
 
+    // get
     public String getName() {
         return this.name;
     }
@@ -39,6 +46,14 @@ public class Category {
 
     public boolean getHaveDad() {
         return this.haveDad;
+    }
+
+    public String getData1() {
+        return this.data1;
+    }
+
+    public String getData2() {
+        return this.data2;
     }
     
 }

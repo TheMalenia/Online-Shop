@@ -10,8 +10,9 @@ public class Product {
     private List<String> comments;
     protected Seller seller;
     private Category category;
+    private String value1, value2; // for Category Dynamic Data!
 
-    public Product(String name, String caption, int inventory, double price, Seller seller, Category category) {
+    public Product(String name, String caption, int inventory, double price, Seller seller, Category category, String value1, String value2) {
         this.name = name;
         this.caption = caption;
         this.inventory = inventory;
@@ -19,6 +20,8 @@ public class Product {
         this.comments = new ArrayList<>();
         this.category = category;
         this.seller = seller;
+        this.value1 = value1;
+        this.value2 = value2;
     }
     
     public void print() {
@@ -68,5 +71,13 @@ public class Product {
 
     public Category getCategory() {
         return this.category;
+    }
+
+    public String getValue1() {
+        return this.value1;
+    }
+
+    public String getValue2() {
+        return this.value1;
     }
 }
